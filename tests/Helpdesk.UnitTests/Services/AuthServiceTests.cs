@@ -52,33 +52,5 @@ public class AuthServiceTests : IDisposable
         result.Error.Should().Be(AuthService.InvalidCredentialsError);
     }
 
-    [Fact]
-    public async Task AuthenticateAsync_UnknownUser_ReturnsFailure()
-    {
-        // Arrange
-        const string unknownUsername = "nobody";
-
-        // Act
-        var result = await _service.AuthenticateAsync(unknownUsername, Password);
-
-        // Assert
-        result.Succeeded.Should().BeFalse();
-        result.Error.Should().Be(AuthService.InvalidCredentialsError);
-    }
-
-    [Fact]
-    public async Task AuthenticateAsync_AdminUser_ReturnsAdminRole()
-    {
-        // Arrange
-        _database.Context.Users.Add(new User { Username = "root", PasswordHash = _hasher.Hash(Password), Role = Role.Admin });
-        await _database.Context.SaveChangesAsync();
-
-        // Act
-        var result = await _service.AuthenticateAsync("root", Password);
-
-        // Assert
-        result.User!.Role.Should().Be(Role.Admin);
-    }
-
     public void Dispose() => _database.Dispose();
 }

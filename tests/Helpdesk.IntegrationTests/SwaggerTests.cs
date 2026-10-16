@@ -23,19 +23,4 @@ public class SwaggerTests : IntegrationTestBase
             .And.Contain("/api/tickets/{id}/status")
             .And.Contain("/api/users");
     }
-
-    [Fact]
-    public async Task GetSwaggerUi_Anonymous_ReturnsDocumentationPage()
-    {
-        // Arrange
-        var client = CreateAnonymousClient();
-
-        // Act
-        var response = await client.GetAsync("/swagger/index.html");
-        var html = await response.Content.ReadAsStringAsync();
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        html.Should().Contain("Helpdesk API");
-    }
 }

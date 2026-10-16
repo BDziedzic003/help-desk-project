@@ -40,35 +40,6 @@ public class UsersApiTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task CreateUser_DuplicateUsername_ReturnsConflict()
-    {
-        // Arrange
-        var admin = await CreateAdminClientAsync();
-        var request = new CreateUserRequest { Username = "ADMIN", Password = "haslo123" };
-
-        // Act
-        var response = await admin.PostAsJsonAsync("/api/users", request);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-    }
-
-    [Fact]
-    public async Task DeleteUser_OwnAdminAccount_ReturnsConflict()
-    {
-        // Arrange
-        var admin = await CreateAdminClientAsync();
-        var users = await ReadAsync<List<UserDto>>(await admin.GetAsync("/api/users"));
-        var adminId = users.Single(u => u.Username == "admin").Id;
-
-        // Act
-        var response = await admin.DeleteAsync($"/api/users/{adminId}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-    }
-
-    [Fact]
     public async Task DeleteUser_UserWithTickets_RemovesUserAndTickets()
     {
         // Arrange

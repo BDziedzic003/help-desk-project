@@ -54,36 +54,34 @@ dotnet test
 
 Lokalizacja: [`tests/Helpdesk.UnitTests`](tests/Helpdesk.UnitTests)
 
-65 testów (xUnit + FluentAssertions), każdy w układzie AAA (`// Arrange`, `// Act`, `// Assert`) i nazwany według
+21 testów (xUnit + FluentAssertions), każdy w układzie AAA (`// Arrange`, `// Act`, `// Assert`) i nazwany według
 schematu `NazwaMetody_Scenariusz_OczekiwanyWynik`. Testy serwisów działają na prawdziwym schemacie bazy
 (SQLite w pamięci), a czas jest podmieniany przez `TimeProvider`.
 
 | Obszar | Co jest sprawdzane |
 |--------|--------------------|
-| `Pbkdf2PasswordHasher` | hash nie zawiera hasła, losowa sól, poprawne i błędne hasło, uszkodzony hash |
-| `AuthService` | logowanie poprawne, złe hasło, nieznany użytkownik, rola administratora |
-| `ClaimsPrincipalFactory`, `ClaimsPrincipalExtensions` | claimy tożsamości i ich odtworzenie |
+| `Pbkdf2PasswordHasher` | losowa sól, poprawne i błędne hasło |
+| `AuthService` | logowanie poprawnymi danymi, złe hasło |
+| `ClaimsPrincipalFactory` | claimy tożsamości (id, nazwa, rola) |
 | `DbSeeder` | utworzenie administratora z zahashowanym hasłem, brak duplikatu przy ponownym starcie |
-| `TicketService` (zapytania) | widoczność zgłoszeń (użytkownik / administrator), filtry statusu, priorytetu i tytułu, sortowanie |
-| `TicketService` (operacje) | tworzenie, edycja, usuwanie, blokada zakończonego zgłoszenia, zmiana statusu tylko przez administratora |
-| `TicketRules` | reguła blokady zakończonego zgłoszenia |
-| `UserService` | CRUD użytkowników, unikalność nazwy, ochrona ostatniego administratora, zakaz usunięcia własnego konta |
-| `TicketDisplayExtensions`, `UserDisplayExtensions` | polskie etykiety i style statusów, priorytetów i ról |
+| `TicketService` (zapytania) | widoczność zgłoszeń (użytkownik / administrator), wyszukiwanie po tytule, sortowanie po priorytecie |
+| `TicketService` (operacje) | tworzenie, cudze zgłoszenie, blokada zakończonego zgłoszenia (użytkownik / administrator), zmiana statusu tylko przez administratora |
+| `UserService` | tworzenie użytkownika, unikalność nazwy, ochrona ostatniego administratora, usuwanie użytkownika razem ze zgłoszeniami |
 
 ### Testy integracyjne
 
 Lokalizacja: [`tests/Helpdesk.IntegrationTests`](tests/Helpdesk.IntegrationTests)
 
-27 testów na prawdziwej aplikacji uruchamianej przez `WebApplicationFactory<Program>`. Każdy test dostaje własną,
+15 testów na prawdziwej aplikacji uruchamianej przez `WebApplicationFactory<Program>`. Każdy test dostaje własną,
 tymczasową bazę SQLite (usuwaną po teście), więc testy są od siebie niezależne i nie ruszają lokalnej bazy.
 
 | Plik | Co jest sprawdzane |
 |------|--------------------|
-| `AuthApiTests` | logowanie i wylogowanie przez API, brak dostępu bez logowania |
-| `TicketsApiTests` | CRUD zgłoszeń, walidacja, widoczność zgłoszeń, filtrowanie i sortowanie, blokada zakończonego zgłoszenia, zmiana statusu |
-| `UsersApiTests` | dostęp tylko dla administratora, tworzenie użytkownika, duplikat nazwy, usuwanie użytkownika razem ze zgłoszeniami |
-| `PagesTests` | strona logowania, przekierowanie niezalogowanego, logowanie formularzem, panel administratora |
-| `SwaggerTests` | dostępność dokumentacji OpenAPI i Swagger UI |
+| `AuthApiTests` | logowanie przez API (poprawne i błędne dane), brak dostępu bez logowania |
+| `TicketsApiTests` | tworzenie i walidacja, widoczność zgłoszeń, cudze zgłoszenie, filtrowanie i sortowanie, blokada zakończonego zgłoszenia, zmiana statusu tylko przez administratora |
+| `UsersApiTests` | dostęp tylko dla administratora, tworzenie użytkownika i jego logowanie, usuwanie użytkownika razem ze zgłoszeniami |
+| `PagesTests` | logowanie formularzem na stronie |
+| `SwaggerTests` | dostępność specyfikacji OpenAPI |
 
 ## Dokumentacja API
 

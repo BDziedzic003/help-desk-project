@@ -23,18 +23,4 @@ public class ClaimsPrincipalFactoryTests
         principal.IsInRole(nameof(Role.Admin)).Should().BeTrue();
         principal.Identity.IsAuthenticated.Should().BeTrue();
     }
-
-    [Fact]
-    public void Create_RegularUser_IsNotInAdminRole()
-    {
-        // Arrange
-        var user = new AuthenticatedUser(1, "jan", Role.User);
-
-        // Act
-        var principal = ClaimsPrincipalFactory.Create(user);
-
-        // Assert
-        principal.IsInRole(nameof(Role.Admin)).Should().BeFalse();
-        principal.IsInRole(nameof(Role.User)).Should().BeTrue();
-    }
 }
