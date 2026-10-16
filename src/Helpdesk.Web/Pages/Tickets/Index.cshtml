@@ -90,7 +90,24 @@ else
                             <div class="small text-muted text-truncate" style="max-width: 28rem;">@ticket.Description</div>
                         </td>
                         <td><span class="badge @ticket.Priority.ToBadgeClass()">@ticket.Priority.ToDisplayName()</span></td>
-                        <td><span class="badge @ticket.Status.ToBadgeClass()">@ticket.Status.ToDisplayName()</span></td>
+                        <td>
+                            @if (Model.IsAdmin)
+                            {
+                                <form method="post" asp-page-handler="ChangeStatus" asp-route-id="@ticket.Id" class="d-flex gap-1">
+                                    <select name="status" class="form-select form-select-sm" aria-label="Status zgłoszenia">
+                                        @foreach (var status in Enum.GetValues<TicketStatus>())
+                                        {
+                                            <option value="@status" selected="@(ticket.Status == status)">@status.ToDisplayName()</option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Zmień</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="badge @ticket.Status.ToBadgeClass()">@ticket.Status.ToDisplayName()</span>
+                            }
+                        </td>
                         @if (Model.IsAdmin)
                         {
                             <td>@ticket.AuthorName</td>

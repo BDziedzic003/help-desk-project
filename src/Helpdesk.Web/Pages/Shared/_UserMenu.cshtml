@@ -10,6 +10,12 @@
         <li class="nav-item">
             <a class="nav-link" asp-page="/Tickets/Create">Nowe zgłoszenie</a>
         </li>
+        @if (isAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Admin/Users/Index">Użytkownicy</a>
+            </li>
+        }
         <li class="nav-item">
             <span class="navbar-text mx-3">
                 @User.Identity.Name
