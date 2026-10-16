@@ -68,7 +68,7 @@ Services return results that PageModels/controllers translate to HTTP/UI respons
 ## Plan (one step = one commit)
 
 - [x] 1. Scaffold solution, test projects, editorconfig, README skeleton
-- [ ] 2. Domain model + DbContext + SQLite + initial migration + admin seed
+- [x] 2. Domain model + DbContext + SQLite + initial migration + admin seed
 - [ ] 3. Authentication backend: password hashing, AuthService, cookie auth, roles + unit tests
 - [ ] 4. Login frontend: login/logout pages, layout navigation depending on role
 - [ ] 5. Tickets backend: TicketService (ownership, lock, filtering, sorting) + API + unit tests
