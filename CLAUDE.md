@@ -77,7 +77,7 @@ Services return results that PageModels/controllers translate to HTTP/UI respons
 - [x] 8. Admin panel frontend: users CRUD, all tickets, status change
 - [x] 9. Integration tests (min. 10) with WebApplicationFactory
 - [x] 10. API documentation (Swagger/OpenAPI)
-- [ ] 11. Final cleanup (unused usings, naming, small methods)
+- [x] 11. Final cleanup (unused usings, naming, small methods)
 
 Update the checkboxes above when a step is done.
 
