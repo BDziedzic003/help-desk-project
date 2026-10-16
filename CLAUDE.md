@@ -75,7 +75,7 @@ Services return results that PageModels/controllers translate to HTTP/UI respons
 - [x] 6. Tickets frontend: list with filters/sorting, create, edit, delete
 - [x] 7. User management backend (Admin only) + API + unit tests
 - [x] 8. Admin panel frontend: users CRUD, all tickets, status change
-- [ ] 9. Integration tests (min. 10) with WebApplicationFactory
+- [x] 9. Integration tests (min. 10) with WebApplicationFactory
 - [ ] 10. API documentation (Swagger/OpenAPI)
 - [ ] 11. Final cleanup (unused usings, naming, small methods)
 
