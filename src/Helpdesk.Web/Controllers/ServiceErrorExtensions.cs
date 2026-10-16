@@ -9,7 +9,8 @@ public static class ServiceErrorExtensions
     {
         ServiceError.NotFound => controller.NotFound(),
         ServiceError.Forbidden => controller.Forbid(),
-        ServiceError.Locked => controller.Conflict(new { error = ServiceErrorMessages.For(error) }),
+        ServiceError.Locked or ServiceError.UsernameTaken or ServiceError.LastAdminProtected or ServiceError.SelfDeletion
+            => controller.Conflict(new { error = ServiceErrorMessages.For(error) }),
         _ => controller.StatusCode(StatusCodes.Status500InternalServerError)
     };
 }

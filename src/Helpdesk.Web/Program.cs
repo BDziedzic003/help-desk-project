@@ -16,6 +16,7 @@ builder.Services.Configure<AdminSeedOptions>(builder.Configuration.GetSection(Ad
 builder.Services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTicketServices();
 
 var app = builder.Build();

@@ -5,7 +5,10 @@ public enum ServiceError
     None = 0,
     NotFound = 1,
     Forbidden = 2,
-    Locked = 3
+    Locked = 3,
+    UsernameTaken = 4,
+    LastAdminProtected = 5,
+    SelfDeletion = 6
 }
 
 public record ServiceResult(ServiceError Error)

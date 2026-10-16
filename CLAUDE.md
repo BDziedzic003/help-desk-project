@@ -73,7 +73,7 @@ Services return results that PageModels/controllers translate to HTTP/UI respons
 - [x] 4. Login frontend: login/logout pages, layout navigation depending on role
 - [x] 5. Tickets backend: TicketService (ownership, lock, filtering, sorting) + API + unit tests
 - [x] 6. Tickets frontend: list with filters/sorting, create, edit, delete
-- [ ] 7. User management backend (Admin only) + API + unit tests
+- [x] 7. User management backend (Admin only) + API + unit tests
 - [ ] 8. Admin panel frontend: users CRUD, all tickets, status change
 - [ ] 9. Integration tests (min. 10) with WebApplicationFactory
 - [ ] 10. API documentation (Swagger/OpenAPI)
