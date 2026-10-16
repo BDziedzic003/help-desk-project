@@ -44,45 +44,6 @@ Dane domyślnego konta można zmienić w sekcji `AdminSeed` pliku `src/Helpdesk.
 (konto powstaje tylko wtedy, gdy użytkownik o takiej nazwie jeszcze nie istnieje).
 Zwykłych użytkowników tworzy administrator w panelu **Użytkownicy**.
 
-## Testy
-
-```bash
-dotnet test
-```
-
-### Testy jednostkowe
-
-Lokalizacja: [`tests/Helpdesk.UnitTests`](tests/Helpdesk.UnitTests)
-
-21 testów (xUnit + FluentAssertions), każdy w układzie AAA (`// Arrange`, `// Act`, `// Assert`) i nazwany według
-schematu `NazwaMetody_Scenariusz_OczekiwanyWynik`. Testy serwisów działają na prawdziwym schemacie bazy
-(SQLite w pamięci), a czas jest podmieniany przez `TimeProvider`.
-
-| Obszar | Co jest sprawdzane |
-|--------|--------------------|
-| `Pbkdf2PasswordHasher` | losowa sól, poprawne i błędne hasło |
-| `AuthService` | logowanie poprawnymi danymi, złe hasło |
-| `ClaimsPrincipalFactory` | claimy tożsamości (id, nazwa, rola) |
-| `DbSeeder` | utworzenie administratora z zahashowanym hasłem, brak duplikatu przy ponownym starcie |
-| `TicketService` (zapytania) | widoczność zgłoszeń (użytkownik / administrator), wyszukiwanie po tytule, sortowanie po priorytecie |
-| `TicketService` (operacje) | tworzenie, cudze zgłoszenie, blokada zakończonego zgłoszenia (użytkownik / administrator), zmiana statusu tylko przez administratora |
-| `UserService` | tworzenie użytkownika, unikalność nazwy, ochrona ostatniego administratora, usuwanie użytkownika razem ze zgłoszeniami |
-
-### Testy integracyjne
-
-Lokalizacja: [`tests/Helpdesk.IntegrationTests`](tests/Helpdesk.IntegrationTests)
-
-15 testów na prawdziwej aplikacji uruchamianej przez `WebApplicationFactory<Program>`. Każdy test dostaje własną,
-tymczasową bazę SQLite (usuwaną po teście), więc testy są od siebie niezależne i nie ruszają lokalnej bazy.
-
-| Plik | Co jest sprawdzane |
-|------|--------------------|
-| `AuthApiTests` | logowanie przez API (poprawne i błędne dane), brak dostępu bez logowania |
-| `TicketsApiTests` | tworzenie i walidacja, widoczność zgłoszeń, cudze zgłoszenie, filtrowanie i sortowanie, blokada zakończonego zgłoszenia, zmiana statusu tylko przez administratora |
-| `UsersApiTests` | dostęp tylko dla administratora, tworzenie użytkownika i jego logowanie, usuwanie użytkownika razem ze zgłoszeniami |
-| `PagesTests` | logowanie formularzem na stronie |
-| `SwaggerTests` | dostępność specyfikacji OpenAPI |
-
 ## Dokumentacja API
 
 Dokumentacja wygenerowana przez Swagger (OpenAPI) jest dostępna po uruchomieniu aplikacji pod adresem
@@ -144,7 +105,5 @@ użytkownika, ostatni administrator, usunięcie własnego konta).
 - C# / .NET 10
 - ASP.NET Core Razor Pages
 - Entity Framework Core + SQLite
-- xUnit, FluentAssertions, Moq
-- Microsoft.AspNetCore.Mvc.Testing (testy integracyjne)
 - Swashbuckle (Swagger / OpenAPI)
 - Bootstrap 5
