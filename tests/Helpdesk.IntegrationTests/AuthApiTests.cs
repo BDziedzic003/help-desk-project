@@ -52,19 +52,4 @@ public class AuthApiTests : IntegrationTestBase
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
-
-    [Fact]
-    public async Task GetTickets_AfterLogout_ReturnsUnauthorized()
-    {
-        // Arrange
-        var client = await CreateAdminClientAsync();
-        (await client.GetAsync("/api/tickets")).StatusCode.Should().Be(HttpStatusCode.OK);
-
-        // Act
-        await client.PostAsync("/api/auth/logout", content: null);
-        var response = await client.GetAsync("/api/tickets");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
 }

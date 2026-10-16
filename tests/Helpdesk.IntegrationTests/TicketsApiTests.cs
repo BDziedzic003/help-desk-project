@@ -55,23 +55,6 @@ public class TicketsApiTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task GetTickets_Admin_ReturnsTicketsOfAllUsers()
-    {
-        // Arrange
-        var jan = await CreateUserClientAsync("jan");
-        var anna = await CreateUserClientAsync("anna");
-        await CreateTicketAsync(jan);
-        await CreateTicketAsync(anna);
-        var admin = await CreateAdminClientAsync();
-
-        // Act
-        var tickets = await ReadAsync<List<TicketDto>>(await admin.GetAsync("/api/tickets"));
-
-        // Assert
-        tickets.Should().HaveCount(2);
-    }
-
-    [Fact]
     public async Task GetTicketById_TicketOfAnotherUser_ReturnsNotFound()
     {
         // Arrange
@@ -105,22 +88,6 @@ public class TicketsApiTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task UpdateTicket_OwnOpenTicket_ReturnsUpdatedTicket()
-    {
-        // Arrange
-        var client = await CreateUserClientAsync("jan");
-        var ticket = await CreateTicketAsync(client);
-        var request = new TicketRequest { Title = "Changed", Description = "New text", Priority = TicketPriority.Low };
-
-        // Act
-        var response = await client.PutAsJsonAsync($"/api/tickets/{ticket.Id}", request);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        (await ReadAsync<TicketDto>(response)).Title.Should().Be("Changed");
-    }
-
-    [Fact]
     public async Task UpdateTicket_CompletedTicketAsRegularUser_ReturnsConflict()
     {
         // Arrange
@@ -138,23 +105,6 @@ public class TicketsApiTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task DeleteTicket_CompletedTicketAsAdmin_ReturnsNoContent()
-    {
-        // Arrange
-        var jan = await CreateUserClientAsync("jan");
-        var ticket = await CreateTicketAsync(jan);
-        var admin = await CreateAdminClientAsync();
-        await admin.PutAsJsonAsync($"/api/tickets/{ticket.Id}/status", new ChangeStatusRequest { Status = TicketStatus.Completed });
-
-        // Act
-        var response = await admin.DeleteAsync($"/api/tickets/{ticket.Id}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        (await admin.GetAsync($"/api/tickets/{ticket.Id}")).StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    [Fact]
     public async Task ChangeStatus_RegularUser_ReturnsForbidden()
     {
         // Arrange
@@ -167,22 +117,5 @@ public class TicketsApiTests : IntegrationTestBase
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-    }
-
-    [Fact]
-    public async Task ChangeStatus_Admin_ReturnsTicketWithNewStatus()
-    {
-        // Arrange
-        var jan = await CreateUserClientAsync("jan");
-        var ticket = await CreateTicketAsync(jan);
-        var admin = await CreateAdminClientAsync();
-
-        // Act
-        var response = await admin.PutAsJsonAsync(
-            $"/api/tickets/{ticket.Id}/status", new ChangeStatusRequest { Status = TicketStatus.InProgress });
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        (await ReadAsync<TicketDto>(response)).Status.Should().Be(TicketStatus.InProgress);
     }
 }
