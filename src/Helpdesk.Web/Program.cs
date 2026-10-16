@@ -1,15 +1,19 @@
 using Helpdesk.Web.Data;
+using Helpdesk.Web.Infrastructure;
 using Helpdesk.Web.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+builder.Services.AddHelpdeskAuthentication();
 builder.Services.AddDbContext<HelpdeskDbContext>(dbOptions =>
     dbOptions.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 builder.Services.Configure<AdminSeedOptions>(builder.Configuration.GetSection(AdminSeedOptions.SectionName));
 builder.Services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<DbSeeder>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -24,8 +28,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 
