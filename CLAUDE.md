@@ -70,7 +70,7 @@ Services return results that PageModels/controllers translate to HTTP/UI respons
 - [x] 1. Scaffold solution, test projects, editorconfig, README skeleton
 - [x] 2. Domain model + DbContext + SQLite + initial migration + admin seed
 - [x] 3. Authentication backend: password hashing, AuthService, cookie auth, roles + unit tests
-- [ ] 4. Login frontend: login/logout pages, layout navigation depending on role
+- [x] 4. Login frontend: login/logout pages, layout navigation depending on role
 - [ ] 5. Tickets backend: TicketService (ownership, lock, filtering, sorting) + API + unit tests
 - [ ] 6. Tickets frontend: list with filters/sorting, create, edit, delete
 - [ ] 7. User management backend (Admin only) + API + unit tests

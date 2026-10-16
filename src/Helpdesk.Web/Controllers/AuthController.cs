@@ -1,8 +1,6 @@
 using Helpdesk.Web.Contracts;
 using Helpdesk.Web.Infrastructure;
 using Helpdesk.Web.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +20,7 @@ public class AuthController(IAuthService authService) : ControllerBase
             return Unauthorized(new { error = result.Error });
         }
 
-        await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            ClaimsPrincipalFactory.Create(result.User!));
+        await HttpContext.SignInUserAsync(result.User!);
 
         return Ok(result.User);
     }
@@ -33,7 +29,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignOutUserAsync();
         return NoContent();
     }
 }
