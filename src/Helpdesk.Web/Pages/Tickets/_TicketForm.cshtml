@@ -1,0 +1,25 @@
+@using Helpdesk.Web.Domain
+@using Helpdesk.Web.Infrastructure
+@model Helpdesk.Web.Contracts.TicketRequest
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="Title" class="form-label">Tytuł</label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Description" class="form-label">Opis</label>
+    <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Priority" class="form-label">Priorytet</label>
+    <select asp-for="Priority" class="form-select">
+        @foreach (var priority in Enum.GetValues<TicketPriority>())
+        {
+            <option value="@priority" selected="@(Model.Priority == priority)">@priority.ToDisplayName()</option>
+        }
+    </select>
+</div>

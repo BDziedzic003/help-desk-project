@@ -7,6 +7,7 @@
 @if (User.Identity?.IsAuthenticated == true)
 {
     <p class="text-muted">Zalogowano jako <strong>@User.Identity.Name</strong>.</p>
+    <a asp-page="/Tickets/Index" class="btn btn-primary">Przejdź do zgłoszeń</a>
 }
 else
 {
