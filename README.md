@@ -6,15 +6,13 @@ Testowanie i Jakość Oprogramowania
 
 ## Autor
 
-_TODO: imię i nazwisko_
+Bartłomiej Dziedzic
 
 ## Temat projektu
 
-Aplikacja webowa typu helpdesk do obsługi zgłoszeń (ticketów).
+Aplikacja webowa typu helpdesk do obsługi zgłoszeń.
 
 ## Opis projektu
-
-_TODO_
 
 Zarys funkcjonalności:
 
