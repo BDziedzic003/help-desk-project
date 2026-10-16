@@ -6,5 +6,5 @@ public class AdminSeedOptions
 
     public string Username { get; set; } = "admin";
 
-    public string Password { get; set; } = "Admin123!";
+    public string Password { get; set; } = "admin";
 }
