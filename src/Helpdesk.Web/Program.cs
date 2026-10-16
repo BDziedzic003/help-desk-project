@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Helpdesk.Web.Data;
 using Helpdesk.Web.Infrastructure;
 using Helpdesk.Web.Services;
@@ -6,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(json => json.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddHelpdeskAuthentication();
 builder.Services.AddDbContext<HelpdeskDbContext>(dbOptions =>
     dbOptions.UseSqlite(builder.Configuration.GetConnectionString("Default")));
@@ -14,6 +16,7 @@ builder.Services.Configure<AdminSeedOptions>(builder.Configuration.GetSection(Ad
 builder.Services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTicketServices();
 
 var app = builder.Build();
 
