@@ -1,0 +1,25 @@
+@using Helpdesk.Web.Domain
+
+<ul class="navbar-nav ms-auto align-items-sm-center">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        var isAdmin = User.IsInRole(nameof(Role.Admin));
+        <li class="nav-item">
+            <span class="navbar-text me-3">
+                @User.Identity.Name
+                <span class="badge @(isAdmin ? "bg-danger" : "bg-secondary")">@(isAdmin ? "Administrator" : "Użytkownik")</span>
+            </span>
+        </li>
+        <li class="nav-item">
+            <form method="post" asp-page="/Account/Logout">
+                <button type="submit" class="btn btn-outline-light btn-sm">Wyloguj</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Account/Login">Zaloguj</a>
+        </li>
+    }
+</ul>
