@@ -1,0 +1,36 @@
+@page
+@using Helpdesk.Web.Domain
+@using Helpdesk.Web.Infrastructure
+@model Helpdesk.Web.Pages.Admin.Users.CreateModel
+@{
+    ViewData["Title"] = "Nowy użytkownik";
+}
+
+<h1 class="h3 mb-3">Nowy użytkownik</h1>
+
+<form method="post" class="col-lg-5">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Username" class="form-label">Nazwa użytkownika</label>
+        <input asp-for="Input.Username" class="form-control" autocomplete="off" />
+        <span asp-validation-for="Input.Username" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.Password" class="form-label">Hasło</label>
+        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.Role" class="form-label">Rola</label>
+        <select asp-for="Input.Role" class="form-select">
+            @foreach (var role in Enum.GetValues<Role>())
+            {
+                <option value="@role" selected="@(Model.Input.Role == role)">@role.ToDisplayName()</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Utwórz</button>
+    <a asp-page="Index" class="btn btn-link">Anuluj</a>
+</form>

@@ -1,0 +1,25 @@
+@page "{id:int}"
+@using Helpdesk.Web.Infrastructure
+@model Helpdesk.Web.Pages.Admin.Users.DeleteModel
+@{
+    ViewData["Title"] = "Usuwanie użytkownika";
+}
+
+<h1 class="h3 mb-3">Usuwanie użytkownika</h1>
+
+<div class="alert alert-warning">
+    Czy na pewno chcesz usunąć użytkownika <strong>@Model.UserToDelete.Username</strong>?
+    Razem z kontem zostaną usunięte wszystkie jego zgłoszenia (@Model.UserToDelete.TicketCount). Operacji nie można cofnąć.
+</div>
+
+<dl class="row col-lg-5">
+    <dt class="col-sm-4">Nazwa</dt>
+    <dd class="col-sm-8">@Model.UserToDelete.Username</dd>
+    <dt class="col-sm-4">Rola</dt>
+    <dd class="col-sm-8">@Model.UserToDelete.Role.ToDisplayName()</dd>
+</dl>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-page="Index" class="btn btn-link">Anuluj</a>
+</form>
