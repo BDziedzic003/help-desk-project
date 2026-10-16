@@ -123,7 +123,7 @@ public class TicketService(
             return (null, ServiceError.NotFound);
         }
 
-        if (actor.Role != Role.Admin && ticket.Status == TicketStatus.Completed)
+        if (TicketRules.IsLockedFor(actor.Role, ticket.Status))
         {
             return (null, ServiceError.Locked);
         }

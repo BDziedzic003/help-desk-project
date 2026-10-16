@@ -5,7 +5,13 @@
     {
         var isAdmin = User.IsInRole(nameof(Role.Admin));
         <li class="nav-item">
-            <span class="navbar-text me-3">
+            <a class="nav-link" asp-page="/Tickets/Index">@(isAdmin ? "Wszystkie zgłoszenia" : "Moje zgłoszenia")</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Tickets/Create">Nowe zgłoszenie</a>
+        </li>
+        <li class="nav-item">
+            <span class="navbar-text mx-3">
                 @User.Identity.Name
                 <span class="badge @(isAdmin ? "bg-danger" : "bg-secondary")">@(isAdmin ? "Administrator" : "Użytkownik")</span>
             </span>

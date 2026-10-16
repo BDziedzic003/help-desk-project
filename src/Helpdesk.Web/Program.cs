@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(razor => razor.Conventions.AuthorizeFolder("/Tickets"));
 builder.Services.AddControllers()
     .AddJsonOptions(json => json.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddHelpdeskAuthentication();

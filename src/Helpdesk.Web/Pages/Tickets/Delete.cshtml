@@ -1,0 +1,26 @@
+@page "{id:int}"
+@using Helpdesk.Web.Infrastructure
+@model Helpdesk.Web.Pages.Tickets.DeleteModel
+@{
+    ViewData["Title"] = "Usuwanie zgłoszenia";
+}
+
+<h1 class="h3 mb-3">Usuwanie zgłoszenia</h1>
+
+<div class="alert alert-warning">Czy na pewno chcesz usunąć to zgłoszenie? Operacji nie można cofnąć.</div>
+
+<dl class="row col-lg-8">
+    <dt class="col-sm-3">Tytuł</dt>
+    <dd class="col-sm-9">@Model.Ticket.Title</dd>
+    <dt class="col-sm-3">Opis</dt>
+    <dd class="col-sm-9">@Model.Ticket.Description</dd>
+    <dt class="col-sm-3">Priorytet</dt>
+    <dd class="col-sm-9">@Model.Ticket.Priority.ToDisplayName()</dd>
+    <dt class="col-sm-3">Status</dt>
+    <dd class="col-sm-9">@Model.Ticket.Status.ToDisplayName()</dd>
+</dl>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-page="Index" class="btn btn-link">Anuluj</a>
+</form>

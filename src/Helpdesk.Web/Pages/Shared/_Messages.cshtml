@@ -1,0 +1,10 @@
+@using Helpdesk.Web.Infrastructure
+
+@if (TempData[PageMessages.Success] is string successMessage)
+{
+    <div class="alert alert-success" role="alert">@successMessage</div>
+}
+@if (TempData[PageMessages.Error] is string errorMessage)
+{
+    <div class="alert alert-danger" role="alert">@errorMessage</div>
+}

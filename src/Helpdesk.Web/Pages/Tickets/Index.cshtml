@@ -1,0 +1,116 @@
+@page
+@using Helpdesk.Web.Contracts
+@using Helpdesk.Web.Domain
+@using Helpdesk.Web.Infrastructure
+@model Helpdesk.Web.Pages.Tickets.IndexModel
+@{
+    ViewData["Title"] = "Zgłoszenia";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">@(Model.IsAdmin ? "Wszystkie zgłoszenia" : "Moje zgłoszenia")</h1>
+    <a asp-page="Create" class="btn btn-primary">Nowe zgłoszenie</a>
+</div>
+
+<form method="get" class="card card-body mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-3">
+            <label for="search" class="form-label">Szukaj w tytule</label>
+            <input id="search" name="search" value="@Model.Query.Search" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" name="status" class="form-select">
+                <option value="">Wszystkie</option>
+                @foreach (var status in Enum.GetValues<TicketStatus>())
+                {
+                    <option value="@status" selected="@(Model.Query.Status == status)">@status.ToDisplayName()</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="priority" class="form-label">Priorytet</label>
+            <select id="priority" name="priority" class="form-select">
+                <option value="">Wszystkie</option>
+                @foreach (var priority in Enum.GetValues<TicketPriority>())
+                {
+                    <option value="@priority" selected="@(Model.Query.Priority == priority)">@priority.ToDisplayName()</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="sortBy" class="form-label">Sortuj wg</label>
+            <select id="sortBy" name="sortBy" class="form-select">
+                <option value="@TicketSortField.CreatedAt" selected="@(Model.Query.SortBy == TicketSortField.CreatedAt)">Daty utworzenia</option>
+                <option value="@TicketSortField.Priority" selected="@(Model.Query.SortBy == TicketSortField.Priority)">Priorytetu</option>
+                <option value="@TicketSortField.Title" selected="@(Model.Query.SortBy == TicketSortField.Title)">Tytułu</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="descending" class="form-label">Kolejność</label>
+            <select id="descending" name="descending" class="form-select">
+                <option value="true" selected="@Model.Query.Descending">Malejąco</option>
+                <option value="false" selected="@(!Model.Query.Descending)">Rosnąco</option>
+            </select>
+        </div>
+        <div class="col-md-1 d-grid">
+            <button type="submit" class="btn btn-outline-primary">Filtruj</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Tickets.Count == 0)
+{
+    <div class="alert alert-light border">Brak zgłoszeń spełniających kryteria.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white border">
+            <thead>
+                <tr>
+                    <th>Tytuł</th>
+                    <th>Priorytet</th>
+                    <th>Status</th>
+                    @if (Model.IsAdmin)
+                    {
+                        <th>Autor</th>
+                    }
+                    <th>Utworzono</th>
+                    <th>Zaktualizowano</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ticket in Model.Tickets)
+                {
+                    <tr>
+                        <td>
+                            <div class="fw-semibold">@ticket.Title</div>
+                            <div class="small text-muted text-truncate" style="max-width: 28rem;">@ticket.Description</div>
+                        </td>
+                        <td><span class="badge @ticket.Priority.ToBadgeClass()">@ticket.Priority.ToDisplayName()</span></td>
+                        <td><span class="badge @ticket.Status.ToBadgeClass()">@ticket.Status.ToDisplayName()</span></td>
+                        @if (Model.IsAdmin)
+                        {
+                            <td>@ticket.AuthorName</td>
+                        }
+                        <td>@ticket.CreatedAt.ToDisplayString()</td>
+                        <td>@ticket.UpdatedAt.ToDisplayString()</td>
+                        <td class="text-end text-nowrap">
+                            @if (Model.CanModify(ticket))
+                            {
+                                <a asp-page="Edit" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+                                <a asp-page="Delete" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-danger">Usuń</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">Zablokowane</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
