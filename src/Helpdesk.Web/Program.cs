@@ -22,6 +22,7 @@ builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTicketServices();
+builder.Services.AddHelpdeskSwagger();
 
 var app = builder.Build();
 
@@ -38,6 +39,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHelpdeskSwagger();
 
 app.MapRazorPages();
 app.MapControllers();
